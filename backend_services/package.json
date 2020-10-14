@@ -1,0 +1,20 @@
+{
+  "name": "oauth",
+  "version": "1.0.0",
+  "description": "SSD",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "IT17078856_IT17156516",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "googleapis": "^60.0.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.4"
+  }
+}
