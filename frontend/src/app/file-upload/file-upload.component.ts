@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiCallsService } from 'src/app/api-calls/api-calls.service';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
-//import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 
 import { of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -16,14 +15,6 @@ const url = "http://localhost:3000/insertFile";
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit {
-
-  // uploader: FileUploader = new FileUploader({ url: url, authToken: this._api.getLocalStorageToken() });
-
-  // attachmentList: any = [];
-
-  // gapi: any;
-
-  //
   @ViewChild("fileUpload", { static: false }) fileUpload: ElementRef; files = [];
 
 
@@ -31,27 +22,22 @@ export class FileUploadComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private _api: ApiCallsService,
     private uploadService: FileUploadServiceService
-  ) {
-    // this.uploader.onBeforeUploadItem = (item) => {
-    //   console.log(item);
-    //   item.withCredentials = false;
-    // }
-    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    //   console.log(item.type);
-    //   this.attachmentList.push(JSON.parse(response));
-    // }
-  }
+  ) {}
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
+      // get the sent authorization code 
       const code = params['code'];
-      console.log(code);
+      
+      // use the authorization code to retrive the access token
       this._api.getToken({ code: code })
         .subscribe(
           res => {
+            // store the access token in local storage
             localStorage.setItem('accessToken', res.accessToken)
             console.log(res.accessToken);
 
+            // call get files method
             this.getFiles();
           },
           (err: HttpErrorResponse) => {
@@ -59,10 +45,9 @@ export class FileUploadComponent implements OnInit {
           }
         )
     })
-
-
   }
 
+  // call the getfiles method in the api-calls.service.ts
   getFiles() {
     this._api.getFiles()
       .subscribe(
@@ -79,10 +64,13 @@ export class FileUploadComponent implements OnInit {
       )
   }
 
+  // upload the user chosen image files to the google drive
   uploadFile(file) {
     const formData = new FormData();
     formData.append('file', file.data);
     file.inProgress = true;
+
+    // call the upload files API in api-calls.service.ts
     this._api.uploadFiles(formData).pipe(
       map(event => {
         switch (event.type) {
@@ -104,6 +92,7 @@ export class FileUploadComponent implements OnInit {
       });
   }
 
+  // upload files, one by one to the google drive by calling the uploadFile method 
   private uploadFiles() {
     this.fileUpload.nativeElement.value = '';
     this.files.forEach(file => {
@@ -111,6 +100,7 @@ export class FileUploadComponent implements OnInit {
     });
   }
 
+  // upload button
   onClick() {  
     const fileUpload = this.fileUpload.nativeElement;fileUpload.onchange = () => {  
     for (let index = 0; index < fileUpload.files.length; index++)  
@@ -118,6 +108,7 @@ export class FileUploadComponent implements OnInit {
      const file = fileUpload.files[index];  
      this.files.push({ data: file, inProgress: false, progress: 0});  
     }  
+      // call uploadFiles method
       this.uploadFiles();  
     };  
     fileUpload.click();  
