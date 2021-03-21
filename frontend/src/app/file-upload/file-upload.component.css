@@ -4,3 +4,7 @@ li {
       padding: 0;  
       list-style: none;  
 }
+
+.mat-card{
+      padding: 5px;
+}

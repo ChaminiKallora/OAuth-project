@@ -9,6 +9,7 @@
   "author": "IT17078856_IT17156516",
   "license": "ISC",
   "dependencies": {
+    "@types/gapi": "0.0.39",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

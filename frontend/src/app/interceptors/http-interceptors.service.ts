@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, Type } from '@angular/core';
 import { HttpInterceptor } from '@angular/common/http';
 import { ApiCallsService } from 'src/app/api-calls/api-calls.service';
 
@@ -11,7 +11,6 @@ export class HttpInterceptorsService implements HttpInterceptor {
 
   intercept(req, next) {
     let apiCallsService = this.injector.get(ApiCallsService)
-    console.log(apiCallsService.getLocalStorageToken());
 
     if (apiCallsService.loggedIn()) {
       let tokenizedReq = req.clone({
