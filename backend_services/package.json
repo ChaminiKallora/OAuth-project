@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "IT17078856_IT17156516",
+  "author": "IT17078856",
   "license": "ISC",
   "dependencies": {
     "@types/gapi": "0.0.39",
